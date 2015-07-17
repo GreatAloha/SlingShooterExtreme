@@ -2093,6 +2093,7 @@ MonoBehaviour:
   castlePos: {x: 45, y: -9.19999981, z: 0}
   gtLevel: {fileID: 770851226}
   gtShots: {fileID: 276538675}
+  vb: {fileID: 0}
 --- !u!1 &359662346
 GameObject:
   m_ObjectHideFlags: 0
@@ -7696,7 +7697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabProjectile: {fileID: 101640, guid: afb2cde7826024ea589cc2e254a6728d, type: 2}
-  velocityMult: 20
+  velocityMult: 10
   launchAim: {fileID: 1489986358}
   CatapultShape: {fileID: 1237140942}
 --- !u!137 &1237140942 stripped
@@ -9086,7 +9087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9dbe1ca57ee6d84ca2297ab0f0c192a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numSteps: 80
+  numSteps: 160
   initialPosition: {fileID: 1237140939}
 --- !u!120 &1489986359
 LineRenderer:

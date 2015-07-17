@@ -19,7 +19,9 @@ public class GameController : MonoBehaviour {
 	
 	public Text gtLevel;
 	public Text gtShots;
-	
+
+	public GameObject vb;
+
 	//internal fields
 	private int level;
 	private int levelMax;
@@ -72,7 +74,7 @@ public class GameController : MonoBehaviour {
 			FollowCam.S.poi = S.castle;
 			break;
 		case "Both":
-			FollowCam.S.poi = GameObject.Find ("ViewBoth");
+			FollowCam.S.poi = vb;
 			break;
 		}
 	}
@@ -95,9 +97,8 @@ public class GameController : MonoBehaviour {
 		shotsTaken = 0;
 		
 		// Reset the camera
-		SwitchView("Both");
-		//ProjectileLine.S.Clear();
-		
+		//SwitchView("Both");
+
 		// Reset the Goal
 		Goal.goalMet = false;
 		UpdateGT();

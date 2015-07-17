@@ -32,13 +32,11 @@ public class Slingshot : MonoBehaviour {
 	}
 
 	void OnMouseEnter() {
-		//print ("Slingshot:MouseEnter");
 		launchPoint.SetActive(true);
 		CatapultActive = true;
 	}
 
 	void OnMouseExit() {
-		//print ("Slingshot:MouseExit");
 		if(!aimingMode)
 			launchPoint.SetActive(false);
 		CatapultActive = false;
@@ -59,67 +57,50 @@ public class Slingshot : MonoBehaviour {
 	}
 
 	void Update() {
-		// Check for aiming mode
-		if(!aimingMode) return;
 
 		// Get our mouse position and convert to 3D
 		Vector3 mousePos2D = Input.mousePosition;
 		mousePos2D.z = - Camera.main.transform.position.z;
-		mousePos2D = Camera.main.ScreenToWorldPoint(mousePos2D);
+		mousePos2D = Camera.main.ScreenToWorldPoint (mousePos2D);
 		// Calculate the delta between  mouse position and launch position 
 		mouseDelta = mousePos2D - launchPos;
 
 
-		// Constrain the delta to the radius of the sphere collider
-		float maxMagnitude = this.GetComponent<SphereCollider>().radius;
-		mouseDelta = Vector3.ClampMagnitude(mouseDelta, maxMagnitude);
-
-		// Set projectile position to new position and fire it
-		projectile.transform.position = launchPos + mouseDelta;
-
-		if(aimingMode){
-			float blend = mouseDelta.magnitude - 2f;
+		if (aimingMode) {
+			float blend = mouseDelta.magnitude;
 			CatapultActive = true;
 			launchPoint.SetActive (true);
-			CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight(0),0,3.5f));
+			if (CatapultActive)
+				CatapultShape.SetBlendShapeWeight (0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight (0), blend, 3.5f));
 			// Calculate the delata between launch position and mouse position
 			
 			
 			// Comnstrain the dealta to the radius of the sphere collider
-			maxMagnitude = this.GetComponent<SphereCollider>().radius - projectile.GetComponent<SphereCollider>().radius;
-			mouseDelta = Vector3.ClampMagnitude(mouseDelta, maxMagnitude);
+			maxMagnitude = this.GetComponent<SphereCollider> ().radius - projectile.GetComponent<SphereCollider> ().radius;
+			mouseDelta = Vector3.ClampMagnitude (mouseDelta, maxMagnitude);
 			
 			// Set projectile position to new position and fire it
 			projectile.transform.position = launchPos + mouseDelta;
 			
 			//Linerenderer
-			launchAim.UpdateAim(mouseDelta * velocityMult, launchPos + mouseDelta);
-		}
+			launchAim.UpdateAim (-mouseDelta * velocityMult, launchPos + mouseDelta);
 
-		else{
-			CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight(0),100f,0.5f));
-		}
 
-		if(Input.GetMouseButtonUp(0)) {
-			aimingMode = false;
-			projectile.GetComponent<Rigidbody>().isKinematic =false;
 
-			projectile.GetComponent<Rigidbody>().velocity = - mouseDelta * velocityMult;
+			if (Input.GetMouseButtonUp (0)) {
+				aimingMode = false;
+				projectile.GetComponent<Rigidbody> ().isKinematic = false;
 
-			FollowCam.S.poi = projectile;
+				projectile.GetComponent<Rigidbody> ().velocity = - mouseDelta * velocityMult;
+				CatapultActive = false;
+				FollowCam.S.poi = projectile;
 		
+			}
+		} else {
+			if (!CatapultActive)
+				CatapultShape.SetBlendShapeWeight (0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight (0), 100f, 0.5f));
 		}
 	}
-
-	void OnMouseUp () {
-		aimingMode=false;
-		CatapultActive = false;
-		projectile.GetComponent<Rigidbody>().isKinematic = false; 
-		projectile.GetComponent<Rigidbody>().velocity = mouseDelta * velocityMult;
-		FollowCam.S.poi = projectile;
-		GameController.ShotFired();
-	}
-
 
 	public Vector3 getVelocity(){
 		return mouseDelta * velocityMult;
