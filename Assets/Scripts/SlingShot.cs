@@ -93,7 +93,7 @@ public class Slingshot : MonoBehaviour {
 			projectile.transform.position = launchPos + mouseDelta;
 			
 			//Linerenderer
-			launchAim.UpdateAim( - mouseDelta * velocityMult, launchPos + mouseDelta);
+			launchAim.UpdateAim(mouseDelta * velocityMult, launchPos + mouseDelta);
 		}
 
 		else{
