@@ -8,15 +8,16 @@ public class Goal : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		// Check if the object is a projectile
-		if(other.gameObject.tag == "Projectile") {
+		if(other.tag == "Projectile") {
 			// If so, set goalMet to true
 			goalMet = true;
+			print("success");
 
 			// Also set the goals alpha to a higher opacity
 			// (use Renderer component)
 			Color c = this.GetComponent<Renderer>().material.color;
 
-			c.a = 1;
+			c.a += 0.5f;
 
 			this.GetComponent<Renderer>().material.color = c;
 

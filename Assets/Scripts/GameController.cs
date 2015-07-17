@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using UnityEngine.UI;
 
 enum GameState { 
 	idle,
@@ -26,7 +25,7 @@ public class GameController : MonoBehaviour {
 	private int levelMax;
 	private int shotsTaken;
 	private GameObject castle;
-	private string showing = "Slingshot";
+	private string showing = "Katapult";
 	
 	private GameState state = GameState.idle;
 	
@@ -53,20 +52,20 @@ public class GameController : MonoBehaviour {
 			SwitchView("Both");
 			// Start next level in 2 seconds
 			Invoke("NextLevel", 2f);
-			print ("ttttt");
+			print ("Win");
 			//}
 		}
 	}
 	
 	void UpdateGT() {
 		gtLevel.text = "Level:" + (level+1) + " of " + levelMax;
-		gtShots.text = "Shots Taken: " + shotsTaken;
+		gtShots.text = "Shots Fired: " + shotsTaken;
 	}
 	
 	public void SwitchView(string view) {
 		S.showing = view;
 		switch(S.showing){
-		case "Slingshot":
+		case "Catapult":
 			FollowCam.S.poi = null;
 			break;
 		case "Castle":
@@ -77,8 +76,7 @@ public class GameController : MonoBehaviour {
 			break;
 		}
 	}
-	
-	
+
 	public void StartLevel() {
 		// If a castle exists, get rid of it
 		if(castle != null) {
