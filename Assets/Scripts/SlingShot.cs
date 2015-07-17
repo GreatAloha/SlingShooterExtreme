@@ -19,7 +19,7 @@ public class Slingshot : MonoBehaviour {
 
 	private GameObject Catapult;
 	private bool CatapultActive;
-	private SkinnedMeshRenderer CatapultShape;
+	public SkinnedMeshRenderer CatapultShape;
 	private float CatapultLerp;
 
 	//audio
@@ -32,7 +32,7 @@ public class Slingshot : MonoBehaviour {
 		launchPoint = launchPointTrans.gameObject;
 		launchPoint.SetActive(false);
 		launchPos = launchPointTrans.position;
-		Catapult = GameObject.Find("Katapult");
+		Catapult = GameObject.Find("Catapult");
 	}
 
 	void OnMouseEnter() {
@@ -59,8 +59,6 @@ public class Slingshot : MonoBehaviour {
 
 		// Switch off physics for now
 		projectile.GetComponent<Rigidbody>().isKinematic =true;
-		projectile.GetComponent<MeshRenderer> ().enabled = false;
-		projectile.GetComponent<TrailRenderer>().enabled = false;
 
 	}
 
@@ -74,7 +72,6 @@ public class Slingshot : MonoBehaviour {
 		mousePos2D = Camera.main.ScreenToWorldPoint(mousePos2D);
 		// Calculate the delta between  mouse position and launch position 
 		mouseDelta = mousePos2D - launchPos;
-		float CatapultRot = -Mathf.Atan2(mouseDelta.x, mouseDelta.y) * Mathf.Rad2Deg;
 
 
 		// Constrain the delta to the radius of the sphere collider
@@ -83,13 +80,12 @@ public class Slingshot : MonoBehaviour {
 
 		// Set projectile position to new position and fire it
 		projectile.transform.position = launchPos + mouseDelta;
+
 		if(aimingMode){
 			float blend = mouseDelta.magnitude - 2f;
 			CatapultActive = true;
-			launchPoint.SetActive ( true ) ;
-			// Get mouse position and convert to 3d
-			CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight(0),blend*35f,0.35f));
-			Catapult.transform.rotation = Quaternion.Euler (0,0,CatapultRot);
+			launchPoint.SetActive (true);
+			CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight(0),blend*70f,1f));
 			// Calculate the delata between launch position and mouse position
 			
 			
@@ -103,13 +99,8 @@ public class Slingshot : MonoBehaviour {
 			//Linerenderer
 			launchAim.UpdateTraj(mouseDelta * velocityMult, launchPos+mouseDelta);
 		}
-		//blendshape calculation based on mouse position
-		else if(CatapultActive){
-			Catapult.transform.rotation = Quaternion.Lerp (Catapult.transform.rotation,Quaternion.Euler(0,0,CatapultRot),0.1f);
-		}
 		else{
 			CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight(0),0f,0.15f));
-			Catapult.transform.rotation = Quaternion.Lerp (Catapult.transform.rotation,Quaternion.Euler(0,0,0),0.01f);
 		}
 
 		if(Input.GetMouseButtonUp(0)) {
@@ -126,14 +117,11 @@ public class Slingshot : MonoBehaviour {
 	void OnMouseUp () {
 		aimingMode=false;
 		CatapultActive = false;
-		projectile.GetComponent<TrailRenderer>().enabled = true;
-		projectile.GetComponent<MeshRenderer> ().enabled = true;
 		projectile.GetComponent<Rigidbody>().isKinematic = false; 
 		//projectile.GetComponent<Rigidbody>().AddForce(-mouseDelta*1000);
 		projectile.GetComponent<Rigidbody>().velocity = mouseDelta * velocityMult;
 		FollowCam.S.poi = projectile;
 		GameController.ShotFired();
-		FollowCam.Shake (.8f);
 	}
 
 
