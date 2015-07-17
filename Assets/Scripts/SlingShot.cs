@@ -6,13 +6,17 @@ public class Slingshot : MonoBehaviour {
 	// Inspector variables
 	public GameObject prefabProjectile;
 	public float velocityMult = 4.0f;
+	public ProjectileAim launchAim;
 
 	// Internal state variables
 	private GameObject launchPoint;
 	private bool aimingMode;
+	private float maxMagnitude;
+	private Vector3 mouseDelta;
 
 	private GameObject projectile;
 	private Vector3 launchPos;
+	private GameObject Katapult;
 
 	void Awake() {
 		Transform launchPointTrans = transform.Find("Launchpoint");
