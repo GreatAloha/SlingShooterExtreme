@@ -4,39 +4,39 @@ using System.Collections;
 public class ProjectileTrail : MonoBehaviour {
 	// Singleton instance
 	public static ProjectileTrail S;
-
+	
 	// Public inspector fields
 	public float minDist = 0.1f;
-
+	
 	// Internal fields
 	private LineRenderer line;
 	private int pointsCount;
-
+	
 	private GameObject _poi;
-
+	
 	private Vector3 lastPoint;
 	
-
+	
 	void Awake() {
 		S = this;
-
+		
 		// Store the linerenderer component in a field
 		line = this.GetComponent<LineRenderer>();
-
+		
 		// Initalize fields
 		pointsCount = 0;
-
+		
 		// Disable until needed
 		line.enabled = false;
-
+		
 		// Set line colors
 		Color c1 = Color.yellow;
 		Color c2 = Color.red;
-
+		
 		line.SetColors(c1,c2);
-
+		
 	}
-
+	
 	void FixedUpdate() {
 		if(poi == null) {
 			// If there is no poi yet, try looking at the camera
@@ -80,15 +80,29 @@ public class ProjectileTrail : MonoBehaviour {
 		lastPoint = pt;
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public void Clear(){
 		_poi = null;
 		line.enabled = false;
 		pointsCount = 0;
 		line.SetVertexCount(0);
 	}
-
-
-
+	
+	
+	
 	// A property: Looks to the outside like a field but calls get/set internally
 	
 	public GameObject poi {
@@ -111,6 +125,6 @@ public class ProjectileTrail : MonoBehaviour {
 			}
 		}
 	}
-
-
+	
+	
 }

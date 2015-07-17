@@ -1,89 +1,90 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SlingShot : MonoBehaviour {
+public class Slingshot : MonoBehaviour {
 
-	
-	// Fields set in the Unity Inspector pane
+	// Inspector variables
 	public GameObject prefabProjectile;
-	public float velocityMult = 4f;
-	
-	// Fields set dynamically
+	public float velocityMult = 4.0f;
+
+	// Internal state variables
 	private GameObject launchPoint;
-	private Vector3 launchPos;
-	private GameObject Projectile;
 	private bool aimingMode;
 
-	void Awake(){
-		//print ("Awake()");
-		Transform launchPointTrans = transform.FindChild("LaunchPoint");
+	private GameObject projectile;
+	private Vector3 launchPos;
+
+	void Awake() {
+		Transform launchPointTrans = transform.Find("Launchpoint");
 		launchPoint = launchPointTrans.gameObject;
 		launchPoint.SetActive(false);
 		launchPos = launchPointTrans.position;
 	}
-	
+
 	void OnMouseEnter() {
-		//print ("Enter");
+		//print ("Slingshot:MouseEnter");
 		launchPoint.SetActive(true);
 	}
-	
+
 	void OnMouseExit() {
-		//print ("Exit");
-		if(!aimingMode) 
+		//print ("Slingshot:MouseExit");
+		if(!aimingMode)
 			launchPoint.SetActive(false);
 	}
-	
-	void OnMouseDown(){
-		//print ("Down");
-		
-		// Player pressed mouse while over Slingshot
-		aimingMode = true;
-		
-		// Instantiate a projectile
-		Projectile = Instantiate(prefabProjectile) as GameObject;
-		
-		// Start it at launch position
-		Projectile.transform.position = launchPos;
-		
-		// Set it to kinematic for now
-		Projectile.GetComponent<Rigidbody>().isKinematic = true;
-	}
-	
-	void Update() {
-		// If the Slingshot is not in aiming mode, don't run this code
-		if(!aimingMode) return;
-		
-		// Get the current mouse position in 2D screen coordinates
-		Vector3 mousePos = Input.mousePosition;
-		// Convert the mouse position to 3D world coordinates
-		mousePos.z = - Camera.main.transform.position.z;
-		Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos);
-		
-		// Find the delta from launch position to 3D mouse position
-		Vector3 mouseDelta = mousePos3D - launchPos;
-		
-		// Limit mouseDelta to the radius of the Slingshot SphereCollider
-		float maxMagnitude = GetComponent<SphereCollider>().radius;
-		mouseDelta = Vector3.ClampMagnitude(mouseDelta, maxMagnitude);
-		
-		// Now move the projectile to this new position
-		Projectile.transform.position = launchPos + mouseDelta;
-		
-		if(Input.GetMouseButtonUp(0)) {
-			// The mouse has been released
-			aimingMode = false;
-			// Fire off the projectile with given velocity
-			Projectile.GetComponent<Rigidbody>().isKinematic = false;
-			Projectile.GetComponent<Rigidbody>().velocity = -mouseDelta * velocityMult;
-			
-			// Set the Followcam's target to our projectile
-			FollowCam.S.poi = Projectile;
-			
-			// Set the reference to the projectile to null as early as possible
-			Projectile = null;
 
-		}
+	void OnMouseDown() {
+		// Set the game to aiming mode
+		aimingMode = true;
+
+		// Instantiate a projectile at launchPoint
+		projectile = Instantiate ( prefabProjectile ) as GameObject;
+		projectile.transform.position = launchPos;
+
+		// Switch off physics for now
+		projectile.GetComponent<Rigidbody>().isKinematic =true;
+	}
+
+	void Update() {
+		// Check for aiming mode
+		if(!aimingMode) return;
+
+		// Get our mouse position and convert to 3D
+		Vector3 mousePos2D = Input.mousePosition;
+		mousePos2D.z = - Camera.main.transform.position.z;
+		Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D);
+
+		// Calculate the delta between  mouse position and launch position 
+		Vector3 mouseDelta = mousePos3D - launchPos;
+
+		// Constrain the delta to the radius of the sphere collider
+		float maxMagnitude = this.GetComponent<SphereCollider>().radius;
+		mouseDelta = Vector3.ClampMagnitude(mouseDelta, maxMagnitude);
+
+		// Set projectile position to new position and fire it
+		projectile.transform.position = launchPos + mouseDelta;
+
+		if(Input.GetMouseButtonUp(0)) {
+			aimingMode = false;
+			projectile.GetComponent<Rigidbody>().isKinematic =false;
+
+			projectile.GetComponent<Rigidbody>().velocity = - mouseDelta * velocityMult;
+
+			FollowCam.S.poi = projectile;
 		
+		}
+
+	
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+

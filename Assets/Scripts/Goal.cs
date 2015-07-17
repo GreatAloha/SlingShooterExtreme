@@ -2,28 +2,35 @@
 using System.Collections;
 
 public class Goal : MonoBehaviour {
+
 	// Static field accessible from anywhere
-	// Storing if the goal was met
-	public static bool goalMet = false;
+	public static bool goalMet;
 
-
-	// Trigger got entered
 	void OnTriggerEnter(Collider other) {
-		// Check if the object entering the trigger is a projectile
+		// Check if the object is a projectile
 		if(other.gameObject.tag == "Projectile") {
-			// Set the staic field to true
+			// If so, set goalMet to true
 			goalMet = true;
-			// Set the alpha of the color to a higher opacity
 
-			Color c = this.gameObject.GetComponent<Renderer>().material.color;
+			// Also set the goals alpha to a higher opacity
+			// (use Renderer component)
+			Color c = this.GetComponent<Renderer>().material.color;
 
 			c.a = 1;
 
-			this.gameObject.GetComponent<Renderer>().material.color = c;
+			this.GetComponent<Renderer>().material.color = c;
+
 
 		}
-	
 	}
 
 
+
 }
+
+
+
+
+
+
+
