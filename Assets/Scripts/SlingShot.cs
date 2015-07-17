@@ -81,7 +81,7 @@ public class Slingshot : MonoBehaviour {
 			float blend = mouseDelta.magnitude - 2f;
 			CatapultActive = true;
 			launchPoint.SetActive (true);
-			CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight(0),blend*70f,3.5f));
+			CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight(0),0,3.5f));
 			// Calculate the delata between launch position and mouse position
 			
 			
@@ -93,11 +93,11 @@ public class Slingshot : MonoBehaviour {
 			projectile.transform.position = launchPos + mouseDelta;
 			
 			//Linerenderer
-			launchAim.UpdateAim(mouseDelta * velocityMult, launchPos + mouseDelta);
+			launchAim.UpdateAim( - mouseDelta * velocityMult, launchPos + mouseDelta);
 		}
 
 		else{
-			CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight(0),10f,0.5f));
+			CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight(0),100f,0.5f));
 		}
 
 		if(Input.GetMouseButtonUp(0)) {
@@ -115,7 +115,6 @@ public class Slingshot : MonoBehaviour {
 		aimingMode=false;
 		CatapultActive = false;
 		projectile.GetComponent<Rigidbody>().isKinematic = false; 
-		//projectile.GetComponent<Rigidbody>().AddForce(-mouseDelta*1000);
 		projectile.GetComponent<Rigidbody>().velocity = mouseDelta * velocityMult;
 		FollowCam.S.poi = projectile;
 		GameController.ShotFired();

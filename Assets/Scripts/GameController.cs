@@ -111,6 +111,7 @@ public class GameController : MonoBehaviour {
 		if(level == levelMax){
 			level = 0;
 		}
+		SwitchView ("Both");
 		StartLevel();
 	}
 	
