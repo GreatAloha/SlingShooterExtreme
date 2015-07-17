@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour {
 	private int levelMax;
 	private int shotsTaken;
 	private GameObject castle;
-	private string showing = "Katapult";
+	private string showing = "Slingshot";
 	
 	private GameState state = GameState.idle;
 	

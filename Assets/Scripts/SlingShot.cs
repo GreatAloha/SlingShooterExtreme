@@ -22,10 +22,6 @@ public class Slingshot : MonoBehaviour {
 	public SkinnedMeshRenderer CatapultShape;
 	private float CatapultLerp;
 
-	//audio
-	private AudioSource source;
-	public AudioClip ShootAudio;
-
 
 	void Awake() {
 		Transform launchPointTrans = transform.Find("Launchpoint");
@@ -85,7 +81,7 @@ public class Slingshot : MonoBehaviour {
 			float blend = mouseDelta.magnitude - 2f;
 			CatapultActive = true;
 			launchPoint.SetActive (true);
-			CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight(0),blend*70f,1f));
+			CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight(0),blend*70f,3.5f));
 			// Calculate the delata between launch position and mouse position
 			
 			
@@ -97,10 +93,11 @@ public class Slingshot : MonoBehaviour {
 			projectile.transform.position = launchPos + mouseDelta;
 			
 			//Linerenderer
-			launchAim.UpdateTraj(mouseDelta * velocityMult, launchPos+mouseDelta);
+			launchAim.UpdateAim(mouseDelta * velocityMult, launchPos + mouseDelta);
 		}
+
 		else{
-			CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight(0),0f,0.15f));
+			CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight(0),10f,0.5f));
 		}
 
 		if(Input.GetMouseButtonUp(0)) {
