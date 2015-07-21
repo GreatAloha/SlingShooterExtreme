@@ -70,6 +70,7 @@ public class Slingshot : MonoBehaviour {
 			float blend = mouseDelta.magnitude;
 			CatapultActive = true;
 			launchPoint.SetActive (true);
+			GetComponent<AudioSource>().Play();
 			if (CatapultActive)
 				CatapultShape.SetBlendShapeWeight (0, Mathf.Lerp (CatapultShape.GetBlendShapeWeight (0), blend, 3.5f));
 			// Calculate the delata between launch position and mouse position
