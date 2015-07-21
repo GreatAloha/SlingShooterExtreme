@@ -1,7 +1,7 @@
 # SlingShooterExtreme
 GameDev2 Course Group A
 Build on Unity Version 5.1.2 (no plugins required)
-No dependecies or other requirements then the correct Unity Version.
+No dependecies or other requirements than the correct Unity Version.
 
 Found under Scene/FinalGame.
 
