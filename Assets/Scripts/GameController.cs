@@ -37,7 +37,8 @@ public class GameController : MonoBehaviour {
 		
 		level = 0 ;
 		levelMax = castles.Length;
-		
+		GetComponent<AudioSource>().Play();
+
 		StartLevel();
 		
 	}
