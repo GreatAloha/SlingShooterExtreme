@@ -22,10 +22,6 @@ public class Projectile : MonoBehaviour
     {
         if (State == ProjectileState.Thrown &&
             GetComponent<Rigidbody>().velocity.sqrMagnitude <= Constants.MinVelocity) ;
-       // {
-         //   //destroy the bird after 2 seconds
-        //    StartCoroutine(DestroyAfter(2));
-       // }
     }
 
     public void OnThrow()

@@ -15,8 +15,6 @@ public class GameController : MonoBehaviour {
     public GameObject[] projectiles;
 	public Vector3 castlePos;
     public Vector3 ProjectileSpawn;
-
-    //private static bool DestroyedAll;
 	
 	public Text gtLevel;
 	private int level;
@@ -69,16 +67,6 @@ public class GameController : MonoBehaviour {
 
         UpdateGT();
 
-        // Check for level end
-        if (state == GameState.Won && Goal.goalMet)
-        {
-            //if(FollowCam.S.poi.tag == "Projectile" &&  FollowCam.S.poi.GetComponent<Rigidbody>().IsSleeping()) {
-            // Change state to stop checking for level end
-            state = GameState.levelEnd;
-            // Zoom out
-            //}
-        }
-
         switch (CurrentGameState)
         {
             case GameState.Start:
@@ -105,50 +93,6 @@ public class GameController : MonoBehaviour {
                 }
                 break;
             case GameState.Won:
-                if (Input.GetMouseButtonUp(0))
-                {
-                    state = GameState.levelEnd;
-                    Invoke("NextLevel", 2f);
-                    NextLevel();
-
-                    GameObject[] projectiles = GameObject.FindGameObjectsWithTag("Projectile");
-                      foreach(GameObject p in projectiles){
-                        Destroy(p);
-                    }
-
-                    if (SpawnProjectile != null)
-                    {
-                        Destroy(SpawnProjectile);
-                    }
-
-                    if (castle != null)
-                    {
-                        Destroy(castle);
-                    }
-
-                    castle = Instantiate(castles[level]) as GameObject;
-                    castle.transform.position = castlePos;
-
-                    Worms.All(x => x != null);
-
-                    SpawnProjectile = Instantiate(projectiles[level]) as GameObject;
-                    SpawnProjectile.transform.position = ProjectileSpawn;
-                    currentProjectileIndex = 4;
-
-                    CurrentGameState = GameState.Start;
-                    UpdateGT();
-                    //switch (CurrentGameState);
-                    //{
-                    //break;
-                    //}
-                }
-              
-
-                if (level == levelMax)
-                    {
-                    GUI.Label(new Rect(0, 150, 200, 100), "Eventually, You won the game");                    }
-                break;
-
             case GameState.Lost:
                 if (Input.GetMouseButtonUp(0))
                 {
@@ -169,35 +113,13 @@ public class GameController : MonoBehaviour {
 	void UpdateGT() {
 		gtLevel.text = "Level:" + (level+1) + " of " + levelMax;
 	}
-	
-	//public void SwitchView(string view) {
-		//S.showing = view;
-		//switch(S.showing){
-        //case "Catapult":
-			//CameraFollow.S.StartingPosition = CataPos;
-		  //   break;
-		//case "Castle":
-			//CameraFollow.S.StartingPosition = CastlePos;
-			// break;
-		//case "Both":
-           //CameraFollow.S.StartingPosition = ViewBoth;
-		   // break;
-		//}
-	//}
 
 	public void StartLevel() {
 		// If a castle exists, get rid of it
 		if(castle != null) {
 			Destroy (castle);
 		}
-		
-		// Destroy the old projectiles
-		//GameObject[] projectiles = GameObject.FindGameObjectsWithTag("Projectile");
-		//foreach(GameObject p in projectiles){
-			//Destroy(p);
-		//}
-		
-		// Instantiate the new castle
+
 		castle = Instantiate (castles[level]) as GameObject;
 		castle.transform.position = castlePos;
 
@@ -207,15 +129,6 @@ public class GameController : MonoBehaviour {
 		
 	}
 	
-	void NextLevel() {
-		level++;
-		if(level == levelMax){
-            print ("Win");
-			level = 0;
-		}
-		//SwitchView ("Both");
-		StartLevel();
-	}
 
     public void Quit()
     {

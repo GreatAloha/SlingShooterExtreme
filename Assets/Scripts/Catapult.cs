@@ -6,16 +6,10 @@ using System;
 public class Catapult : MonoBehaviour
 {
 
-    // Inspector variables
-    //public ProjectileAim launchAim;
-
-    // Internal state variables
     private GameObject launchPoint;
     private bool aimingMode;
-    //private float maxMagnitude;
     private Vector3 mouseDelta;
 
-    //private GameObject projectile;
     private Vector3 launchPos;
 
     [HideInInspector]
@@ -49,47 +43,17 @@ public class Catapult : MonoBehaviour
 
     }
 
-    //void OnMouseEnter()
-    //{
-     //   launchPoint.SetActive(true);
-     //   CatapultActive = true;
-    //}
-
-   // void OnMouseExit()
-    //{
-     //   if (!aimingMode)
-         //   launchPoint.SetActive(false);
-       // CatapultActive = false;
-  //  }
-
-   // void OnMouseDown()
-   // {
-        // Set the game to aiming mode
-     //   aimingMode = true;
-      //  CatapultActive = true;
-
-        // Instantiate a projectile at launchPoint
-     //   projectile = Instantiate(prefabProjectile) as GameObject;
-    //    projectile.transform.position = launchPos;
-
-        // Switch off physics for now
-     //   projectile.GetComponent<Rigidbody>().isKinematic = true;
-
-   // }
-
     void Update()
     {
 
         switch (catapultstate)
         {
             case CatapultState.Idle:
-                //fix bird's position
                 InitializeProjectile();
                 if (Input.GetMouseButtonDown(0))
                 {
                     //get the point on screen user has tapped
                     Vector3 location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    //if user has tapped onto the bird
                     if (ProjectileToThrow.GetComponent<CircleCollider2D>() == Physics2D.OverlapPoint(location))
                     {
                         catapultstate = CatapultState.UserPulling;
@@ -106,7 +70,6 @@ public class Catapult : MonoBehaviour
                     //we will let the user pull the bird up to a maximum distance
                     if (Vector3.Distance(location, launchPos) > 1.5f)
                     {
-                        //basic vector maths :)
                         var maxPosition = (location - launchPos).normalized * 1.5f + launchPos;
                         ProjectileToThrow.transform.position = maxPosition;
                     }
@@ -162,38 +125,6 @@ public class Catapult : MonoBehaviour
             CatapultActive = true;
             launchPoint.SetActive(true);
             GetComponent<AudioSource>().Play();
-            //if (CatapultActive)
-               // CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp(CatapultShape.GetBlendShapeWeight(0), blend, 3.5f));
-            // Calculate the delata between launch position and mouse position
-
-
-            // Comnstrain the dealta to the radius of the sphere collider
-            //maxMagnitude = this.GetComponent<SphereCollider>().radius - projectile.GetComponent<SphereCollider>().radius;
-            //mouseDelta = Vector3.ClampMagnitude(mouseDelta, maxMagnitude);
-
-            // Set projectile position to new position and fire it
-            //projectile.transform.position = launchPos + mouseDelta;
-
-            //Linerenderer
-            //launchAim.UpdateAim(-mouseDelta * ThrowSpeed, launchPos + mouseDelta);
-
-
-
-           // if (Input.GetMouseButtonUp(0))
-            //{
-              //  aimingMode = false;
-                //projectile.GetComponent<Rigidbody>().isKinematic = false;
-
-                //projectile.GetComponent<Rigidbody>().velocity = -mouseDelta * ThrowSpeed;
-                //CatapultActive = false;
-                //FollowCam.S.poi = projectile;
-
-            //}
-        //}
-        //else
-       // {
-          //  if (!CatapultActive)
-            //    CatapultShape.SetBlendShapeWeight(0, Mathf.Lerp(CatapultShape.GetBlendShapeWeight(0), 100f, 0.5f));
         }
     }
 
@@ -249,9 +180,6 @@ public class Catapult : MonoBehaviour
         float time = segmentScale / segVelocity.magnitude;
         for (int i = 1; i < segmentCount; i++)
         {
-            //x axis: spaceX = initialSpaceX + velocityX * time
-            //y axis: spaceY = initialSpaceY + velocityY * time + 1/2 * accelerationY * time ^ 2
-            //both (vector) space = initialSpace + velocity * time + 1/2 * acceleration * time ^ 2
             float time2 = i * Time.fixedDeltaTime * 5;
             segments[i] = segments[0] + segVelocity * time2 + 0.5f * Physics2D.gravity * Mathf.Pow(time2, 2);
         }
