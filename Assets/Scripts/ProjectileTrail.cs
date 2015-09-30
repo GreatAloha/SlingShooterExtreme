@@ -4,9 +4,7 @@ using System.Collections;
 public class ProjectileTrail : MonoBehaviour {
 	// Singleton instance
 	public static ProjectileTrail S;
-	
-	// Public inspector fields
-	public float minDist = 0.1f;
+	public float minDist = 0.01f;
 	
 	// Internal fields
 	private LineRenderer line;
@@ -28,13 +26,7 @@ public class ProjectileTrail : MonoBehaviour {
 		
 		// Disable until needed
 		line.enabled = false;
-		
-		// Set line colors
-		Color c1 = Color.yellow;
-		Color c2 = Color.red;
-		
-		line.SetColors(c1,c2);
-		
+	
 	}
 	
 	void FixedUpdate() {
@@ -79,28 +71,6 @@ public class ProjectileTrail : MonoBehaviour {
 		
 		lastPoint = pt;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public void Clear(){
-		_poi = null;
-		line.enabled = false;
-		pointsCount = 0;
-		line.SetVertexCount(0);
-	}
-	
 	
 	
 	// A property: Looks to the outside like a field but calls get/set internally

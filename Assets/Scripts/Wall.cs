@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WallDestruction : MonoBehaviour {
+public class Wall : MonoBehaviour {
 		
 		void OnCollisionEnter(Collision col)
 		{

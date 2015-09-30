@@ -3,7 +3,8 @@ using System.Collections;
 
 public class ProjectileAim : MonoBehaviour {
 	
-	public int numSteps;
+	public int numSteps=100;
+    public Vector3 gravity = new Vector3(0.0f, -10.0f, 0.0f);
 	public Transform initialPosition;
 	
 	public void UpdateAim(Vector2 initialVelocity,Vector2 initialPosition)
@@ -18,8 +19,8 @@ public class ProjectileAim : MonoBehaviour {
 		{
 			lr.SetPosition(i, position);
 			
-			position += velocity * Time.fixedDeltaTime*2;
-			velocity += Physics.gravity * Time.fixedDeltaTime*2;
+			position += velocity * Time.fixedDeltaTime*3;
+			velocity += gravity * Time.fixedDeltaTime*3;
 		}
 	}
 	
